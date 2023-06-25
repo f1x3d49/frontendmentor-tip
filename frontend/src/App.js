@@ -1,4 +1,4 @@
-import { FormComponent } from "./components/FormComponent.js";
+import FormComponent from "./components/FormComponent";
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
         <h1>SPLI</h1>
         <h1>TTER</h1>
       </section>
-      <section className="w-full h-full rounded-t-3xl md:w-2/3 md:h-4/6 p-4 md:rounded-3xl md:shadow-sm shadow-lg shadow-gcyan bg-white">
+      <section className="w-full h-full rounded-t-3xl md:w-2/3 md:h-4/6 p-8 hover:cursor-pointer md:rounded-3xl md:shadow-sm shadow-lg shadow-gcyan bg-white">
         <FormComponent />
       </section>
     </div>
