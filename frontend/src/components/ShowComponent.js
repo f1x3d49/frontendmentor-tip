@@ -19,7 +19,11 @@ const ShowComponent = () => {
           <h1 className="text-3xl text-scyan">$32.79</h1>
         </section>
       </div>
-      <button className="w-full h-full md:h-auto bg-scyan rounded-md text-lg active:bg-lgcyan text-vdcyan py-2">
+      <button
+        form="money-form"
+        type="submit"
+        className="w-full h-full md:h-auto bg-scyan rounded-md text-lg active:bg-lgcyan text-vdcyan py-2"
+      >
         RESET
       </button>
     </div>
