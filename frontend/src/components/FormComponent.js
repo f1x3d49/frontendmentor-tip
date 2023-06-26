@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { ReactComponent as Dollar } from "../images/icon-dollar.svg";
 import { ReactComponent as Person } from "../images/icon-person.svg";
-import TipButton from "./TipButton";
+
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const FormComponent = () => {
-  const [ctip, setCTip] = useState();
+  const [TipChange, setTipChange] = useState(0);
 
   const tipPercents = [5, 10, 15, 25, 50];
-
-  const handlePercentClick = () => {};
 
   // Formik Logics
   const formik = useFormik({
@@ -19,25 +17,30 @@ const FormComponent = () => {
       tip: "",
       people: "",
     },
+    enableReinitialize: true,
     //Validate Form
-    validationSchema: Yup.object({}),
-
-    //Submit Form
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    validationSchema: Yup.object({
+      price: Yup.number("Price must be a number")
+        .min(1, "Must be a valid price")
+        .required("Price is required"),
+      tip: Yup.number("Tip must be a number").min(0),
+      people: Yup.number("Must be a number").min(1, "Can't be zero"),
+    }),
   });
 
+  const handlePercentClick = (percent) => {
+    setTipChange(percent);
+  };
+
   return (
-    <form
-      id="money-form"
-      onSubmit={formik.handleSubmit}
-      className="flex flex-col gap-8"
-    >
+    <form id="money-form" className="flex flex-col gap-8">
       {/* Bill */}
       <div>
-        <label htmlFor="price" className="block text-dgcyan">
-          Bill
+        <label htmlFor="price" className="flex justify-between text-dgcyan">
+          <h1>Bill</h1>
+          <h1 className="text-red-500">
+            {formik.errors.price ? formik.errors.price : ""}
+          </h1>
         </label>
         <div className="relative flex items-center">
           <Dollar className="absolute w-5 h-5 ml-2 mt-3" />
@@ -47,7 +50,11 @@ const FormComponent = () => {
             value={formik.values.price}
             onChange={formik.handleChange}
             name="price"
-            className="w-full h-full p-2 text-right appearance-none text-xl text-vdcyan bg-vlgcyan shadow-sm mt-2 rounded-sm focus-within:border-2 focus-within:rounded-sm focus:border-scyan focus:ring-scyan"
+            className={`w-full h-full p-2 text-right appearance-none text-xl text-vdcyan bg-vlgcyan shadow-sm mt-2 rounded-sm focus-within:border-2 focus-within:rounded-sm ${
+              formik.errors.price
+                ? "border-red-500 border-2"
+                : "focus-within:border-scyan"
+            } focus:ring-scyan`}
           />
         </div>
       </div>
@@ -57,11 +64,19 @@ const FormComponent = () => {
           Select Tip %
         </label>
         <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
-          <TipButton percentage="5%" />
-          <TipButton percentage="10%" />
-          <TipButton percentage="15%" />
-          <TipButton percentage="25%" />
-          <TipButton percentage="50%" />
+          {tipPercents.map((percent, index) => (
+            <button
+              type="button"
+              key={index}
+              className={`w-full text-white text-center rounded-md hover:cursor-pointer ${
+                TipChange === percent && "bg-scyan"
+              } bg-vdcyan hover:bg-lgcyan hover:text-vdcyan text-2xl py-2 
+                `}
+              onClick={() => handlePercentClick(percent)}
+            >
+              {percent}%
+            </button>
+          ))}
           <input
             type="number"
             name="tip"
@@ -74,8 +89,11 @@ const FormComponent = () => {
       </div>
       {/* People */}
       <div>
-        <label htmlFor="people" className="block text-dgcyan">
-          Number of People
+        <label htmlFor="people" className="flex justify-between text-dgcyan">
+          <h1>Number of People</h1>
+          <h1 className="text-red-500">
+            {formik.errors.people ? formik.errors.people : ""}
+          </h1>
         </label>
         <div className="relative flex items-center">
           <Person className="absolute w-5 h-5 ml-2 mt-3" />
@@ -85,7 +103,11 @@ const FormComponent = () => {
             onChange={formik.handleChange}
             placeholder="0"
             name="people"
-            className="w-full h-full p-2 text-right appearance-none text-xl text-vdcyan bg-vlgcyan shadow-sm mt-2 rounded-sm focus-within:border-2 focus-within:rounded-sm focus:border-scyan focus:ring-scyan"
+            className={`w-full h-full p-2 text-right appearance-none text-xl text-vdcyan bg-vlgcyan shadow-sm mt-2 rounded-sm focus-within:border-2 focus-within:rounded-sm ${
+              formik.errors.people
+                ? "border-red-500 border-2"
+                : "focus-within:border-scyan"
+            } focus:ring-scyan`}
           />
         </div>
       </div>
