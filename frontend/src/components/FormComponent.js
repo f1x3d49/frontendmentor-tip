@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ReactComponent as Dollar } from "../images/icon-dollar.svg";
 import { ReactComponent as Person } from "../images/icon-person.svg";
 import TipButton from "./TipButton";
@@ -6,11 +6,17 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const FormComponent = () => {
+  const [ctip, setCTip] = useState();
+
+  const tipPercents = [5, 10, 15, 25, 50];
+
+  const handlePercentClick = () => {};
+
   // Formik Logics
   const formik = useFormik({
     initialValues: {
       price: "",
-      custom: "",
+      tip: "",
       people: "",
     },
     //Validate Form
@@ -51,18 +57,18 @@ const FormComponent = () => {
           Select Tip %
         </label>
         <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
-          <TipButton percentage="5%" onClick={formik.handleChange} />
-          <TipButton percentage="10%" onClick={formik.handleChange} />
+          <TipButton percentage="5%" />
+          <TipButton percentage="10%" />
           <TipButton percentage="15%" />
           <TipButton percentage="25%" />
           <TipButton percentage="50%" />
           <input
-            type="text"
+            type="number"
             name="tip"
-            value={formik.values.custom}
+            value={formik.values.tip}
             onChange={formik.handleChange}
             placeholder="Custom"
-            className="text-right pr-4 rounded-md placeholder:text-2xl placeholder:text-dgcyan text-2xl text-vdcyan bg-vlgcyan"
+            className="text-right pr-4 rounded-md placeholder:text-2xl placeholder:text-dgcyan text-2xl text-vdcyan bg-vlgcyan focus-within:border-2 focus-within:rounded-sm focus:border-scyan focus:ring-scyan"
           />
         </div>
       </div>
