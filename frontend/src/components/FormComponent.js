@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ReactComponent as Dollar } from "../images/icon-dollar.svg";
 import { ReactComponent as Person } from "../images/icon-person.svg";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ButtonContext } from "../context/ButtonContext";
 
 const FormComponent = () => {
   const [TipChange, setTipChange] = useState(0);
+  const { active, setActive } = useContext(ButtonContext);
 
   const tipPercents = [5, 10, 15, 25, 50];
 
@@ -28,8 +30,23 @@ const FormComponent = () => {
     }),
   });
 
+  const handleActiveChange = () => {
+    if (
+      formik.values.price !== null &&
+      (formik.values.tip !== null || TipChange !== null) &&
+      formik.values.people !== null
+    ) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  };
+
   const handlePercentClick = (percent) => {
-    setTipChange(percent);
+    if (TipChange === percent) setTipChange(0);
+    else {
+      setTipChange(percent);
+    }
   };
 
   return (
@@ -82,6 +99,7 @@ const FormComponent = () => {
             name="tip"
             value={formik.values.tip}
             onChange={formik.handleChange}
+            disabled={TipChange !== 0 && true}
             placeholder="Custom"
             className="text-right pr-4 rounded-md placeholder:text-2xl placeholder:text-dgcyan text-2xl text-vdcyan bg-vlgcyan focus-within:border-2 focus-within:rounded-sm focus:border-scyan focus:ring-scyan"
           />
