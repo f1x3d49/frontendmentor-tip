@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ReactComponent as Dollar } from "../images/icon-dollar.svg";
 import { ReactComponent as Person } from "../images/icon-person.svg";
 
@@ -30,21 +30,10 @@ const FormComponent = () => {
     }),
   });
 
-  const handleActiveChange = () => {
-    if (
-      formik.values.price !== null &&
-      (formik.values.tip !== null || TipChange !== null) &&
-      formik.values.people !== null
-    ) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-  };
-
   const handlePercentClick = (percent) => {
     if (TipChange === percent) setTipChange(0);
     else {
+      formik.setFieldValue("tip", percent);
       setTipChange(percent);
     }
   };

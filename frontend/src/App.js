@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TipContext } from "./context/TipContext";
 import { TotalContext } from "./context/TotalContext";
 import { ButtonContext } from "./context/ButtonContext";
@@ -9,6 +9,10 @@ function App() {
   const [tip, setTip] = useState(0);
   const [total, setTotal] = useState(0);
   const [active, setActive] = useState(false);
+
+  // UseEffect Method for active button and calculating price
+  useEffect(() => {});
+
   return (
     <div className="min-w-full h-screen flex flex-col gap-12 items-center pt-12 bg-lgcyan font-spacemono font-bold">
       <section className="flex flex-col gap-1 text-3xl md:text-5xl tracking-[0.5rem] text-vdcyan opacity-80">
