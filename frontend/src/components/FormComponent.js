@@ -6,29 +6,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ButtonContext } from "../context/ButtonContext";
 
-const FormComponent = () => {
-  const [TipChange, setTipChange] = useState(0);
+const FormComponent = ({ formik, TipChange, setTipChange }) => {
   const { active, setActive } = useContext(ButtonContext);
 
   const tipPercents = [5, 10, 15, 25, 50];
-
-  // Formik Logics
-  const formik = useFormik({
-    initialValues: {
-      price: "",
-      tip: "",
-      people: "",
-    },
-    enableReinitialize: true,
-    //Validate Form
-    validationSchema: Yup.object({
-      price: Yup.number("Price must be a number")
-        .min(1, "Must be a valid price")
-        .required("Price is required"),
-      tip: Yup.number("Tip must be a number").min(0),
-      people: Yup.number("Must be a number").min(1, "Can't be zero"),
-    }),
-  });
 
   const handlePercentClick = (percent) => {
     if (TipChange === percent) setTipChange(0);

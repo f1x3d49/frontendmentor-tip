@@ -4,14 +4,49 @@ import { TotalContext } from "./context/TotalContext";
 import { ButtonContext } from "./context/ButtonContext";
 import FormComponent from "./components/FormComponent";
 import ShowComponent from "./components/ShowComponent";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function App() {
   const [tip, setTip] = useState(0);
   const [total, setTotal] = useState(0);
   const [active, setActive] = useState(false);
+  const [TipChange, setTipChange] = useState(0);
+
+  // Formik Logic
+  const formik = useFormik({
+    initialValues: {
+      price: "",
+      tip: "",
+      people: "",
+    },
+    enableReinitialize: true,
+    //Validate Form
+    validationSchema: Yup.object({
+      price: Yup.number("Price must be a number")
+        .min(1, "Must be a valid price")
+        .required("Price is required"),
+      tip: Yup.number("Tip must be a number").min(0),
+      people: Yup.number("Must be a number")
+        .min(1, "Can't be zero")
+        .required("People are required"),
+    }),
+  });
 
   // UseEffect Method for active button and calculating price
-  useEffect(() => {});
+  useEffect(() => {
+    if (
+      formik.values.price !== null &&
+      (formik.values.tip !== null || TipChange !== null) &&
+      formik.values.people !== null
+    ) {
+      setTip(formik.values.price * (formik.values.tip / 100));
+      setTotal(tip + formik.values.price);
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  }, [formik.values.people, formik.values.tip, formik.values.price, TipChange]);
 
   return (
     <div className="min-w-full h-screen flex flex-col gap-12 items-center pt-12 bg-lgcyan font-spacemono font-bold">
@@ -23,7 +58,11 @@ function App() {
         <ButtonContext.Provider value={{ active, setActive }}>
           <TipContext.Provider value={{ tip, setTip }}>
             <TotalContext.Provider value={{ total, setTotal }}>
-              <FormComponent />
+              <FormComponent
+                formik={formik}
+                TipChange={TipChange}
+                setTipChange={setTipChange}
+              />
               <ShowComponent />
             </TotalContext.Provider>
           </TipContext.Provider>
