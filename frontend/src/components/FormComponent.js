@@ -1,14 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { ReactComponent as Dollar } from "../images/icon-dollar.svg";
 import { ReactComponent as Person } from "../images/icon-person.svg";
 
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { ButtonContext } from "../context/ButtonContext";
-
 const FormComponent = ({ formik, TipChange, setTipChange }) => {
-  const { active, setActive } = useContext(ButtonContext);
-
   const tipPercents = [5, 10, 15, 25, 50];
 
   const handlePercentClick = (percent) => {

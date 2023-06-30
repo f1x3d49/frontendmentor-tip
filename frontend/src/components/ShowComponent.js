@@ -25,7 +25,7 @@ const ShowComponent = () => {
             <h1 className="text-white text-base">Total</h1>
             <p className="text-gcyan text-sm">/ person</p>
           </div>
-          <h1 className="text-3xl text-scyan">${total}</h1>
+          <h1 className="text-3xl text-scyan">${total ? total : "0"}</h1>
         </section>
       </div>
       <button

@@ -8,8 +8,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 function App() {
-  const [tip, setTip] = useState(0);
-  const [total, setTotal] = useState(0);
+  const [tip, setTip] = useState(null);
+  const [total, setTotal] = useState(null);
   const [active, setActive] = useState(false);
   const [TipChange, setTipChange] = useState(0);
 
@@ -41,12 +41,18 @@ function App() {
       formik.values.people !== null
     ) {
       setTip(formik.values.price * (formik.values.tip / 100));
-      setTotal(tip + formik.values.price);
+      setTotal((tip + formik.values.price) / formik.values.people);
       setActive(true);
     } else {
       setActive(false);
     }
-  }, [formik.values.people, formik.values.tip, formik.values.price, TipChange]);
+  }, [
+    formik.values.people,
+    formik.values.tip,
+    formik.values.price,
+    TipChange,
+    tip,
+  ]);
 
   return (
     <div className="min-w-full h-screen flex flex-col gap-12 items-center pt-12 bg-lgcyan font-spacemono font-bold">
